@@ -6,22 +6,69 @@ const validateSession = require("../middleware/validate-session");
 
 const router = Router();
 
-
-router.post("/create", async function (req, res) {
-  try{
-
-  }catch(e){
-    res.status(500).json({message: e.message})
-  }
- 
+router.post('/signup', function (req, res) {
+  User.create({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    username: req.body.username,
+    email: req.body.email,
+    passwordhash: bcrypt.hashSync(req.body.passwordhash, 5),
+    isZinester: req.body.isZinester,
+    //Julia do i add izZinester here
+  })
+    .then(function createSuccess(user) {
+      let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { 
+        expiresIn: 60 * 60 * 24,
+      });
+      res.json({
+        user: user,
+        message: 'User successfully signed up',
+        sessionToken: token,
+      });
+    })
+    .catch(function(err) {
+      res.status(500).json({ error: err });
+    });
 });
 
-router.post("/login", async function (req, res) {
-  try{
-
-  }catch(e){
-    res.status(500).json({message: e.message})
-  }
+router.post('/login', function (req, res) {
+  User.findOne({
+    where: { 
+      email: req.body.user.email,
+     },
+  })
+    .then(function loginSuccess(user) {
+      if (user) {
+        bcrypt.compare(
+          req.body.user.passwordhash,
+          user.passwordhash,
+          function (err, matches) {
+            if (matches) {
+              let token = jwt.sign(
+                { id: user.id, username: user.username }, 
+                process.env.JWT_SECRET, 
+                { 
+                  expiresIn: 60 * 60 * 24,
+                }
+              );
+              res.status(200).json({
+                user: user,
+                message: 'Woohoo, user is logged in!',
+                sessionToken: token,
+              });
+            } else {
+              res.status(502).send({
+                error: 'Boo, login failed!'
+              });
+            }
+          });
+      } else {
+        res.status(500).json({ 
+          error: 'User does not exist.'
+        });
+      }
+    })
+    .catch((err) => res.status(500).json({ error: err }));
 });
 
 module.exports = router;
