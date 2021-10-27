@@ -4,7 +4,7 @@ const validateSession = require('../middleware/validate-session');
 
 const router = Router();
 
-//add/create Zine
+//POST
 router.post('/create', validateSession, (req, res) => {
     Zine.create({
         title: req.body.title,
@@ -24,7 +24,7 @@ router.post('/create', validateSession, (req, res) => {
     .catch((err) => res.status(500).json({ err }));
 });
 
-//get all Zine - by User
+//GET all Zine - by User
 router.get('/myzines', validateSession, (req, res) => {
   
     Zine.findAll({
@@ -34,14 +34,14 @@ router.get('/myzines', validateSession, (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));  
 })
 
-//get all Zines in db - does not need to be a reg. user.
+//GET all Zines in db - does not need to be a reg. user.
 router.get('/', (req, res) => {
     Zine.findAll()
         .then(logs => res.status(200).json(logs))
         .catch(err => res.status(500).json({ error: err }));
 })
 
-//update Zine
+//PUT - update
 router.put('/update/:zineId', validateSession, function(req, res) {
     const updateZine = {
         title: req.body.title,
@@ -56,14 +56,21 @@ router.put('/update/:zineId', validateSession, function(req, res) {
         where: { 
             id: req.params.zineId, 
             userId: req.user.id 
-        }};
+        }
+    };
     
     Zine.update(updateZine, query)
-        .then((zine) => res.status(200).json(zine))
+        // .then((zine) => res.status(200).json(zine))
+        .then((zine) => {
+            res.status(200).json({
+                message: 'The zine has been updated successfully!',
+                log: zine,
+            });
+        })
         .catch((err) => res.status(500).json({ error: err }));
 });
 
-//delete Zine
+//DELETE
 router.delete('/delete/:zineId', validateSession, function(req, res) {
     const query = {
         where: {
