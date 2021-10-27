@@ -26,7 +26,7 @@ const User = db.define("user", {
     isZinester: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-    }
+    },
 });
 
 module.exports = User;

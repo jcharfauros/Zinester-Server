@@ -28,3 +28,5 @@ router.post('/create', validateSession, (req, res) => {
 
 
 // DELETE - /delete
+
+module.exports = router;

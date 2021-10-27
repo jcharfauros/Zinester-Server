@@ -17,6 +17,8 @@ app.use(Express.json());
 app.use(middlewares.CORS)
 app.use("/user", controllers.User);
 app.use('/zine', controllers.Zine); //julia add
+app.use('/readinglist', controllers.ReadingList);
+app.use('/zine2', controllers.Zine2);
 
 const resetDatabase = {force:true}
 db.authenticate()

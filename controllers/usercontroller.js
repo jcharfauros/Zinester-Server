@@ -58,7 +58,7 @@ router.post('/login', function (req, res) {
               });
             } else {
               res.status(502).send({
-                error: 'Boo, login failed!'
+                error: 'Boo, password does not match!'
               });
             }
           });

@@ -9,7 +9,7 @@ router.post('/create', validateSession, (req, res) => {
     Zine2.create({
         zineTwo: req.body.zineTwo,
         hasRead: req.body.hasRead,
-        readingListId: req.readingList.id,
+        readinglistId: req.readinglist.id,
         userId: req.user.id        
     })
     .then((zine2) => {
