@@ -1,5 +1,6 @@
-const User = require("./user");
+const User = require('./user');
 const Zine = require('./zine');
+const Zine2 = require('./zine2');
 const ReadingList = require('./readinglist');
 // const Profile = require('./profile');
 // const Reviews = require('./reviews');
@@ -11,6 +12,9 @@ Zine.belongsTo(User);
 
 User.hasMany(ReadingList);
 ReadingList.belongsTo(User);
+
+ReadingList.hasMany(Zine2);
+Zine2.belongsTo(ReadingList);
 
 // User.hasOne(Profile);
 // Profile.belongsTo(User);
@@ -24,6 +28,7 @@ ReadingList.belongsTo(User);
 module.exports = {
     User,
     Zine,
+    Zine2,
     ReadingList,
 //  Profile,
 //  Reviews,

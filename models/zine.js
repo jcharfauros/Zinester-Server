@@ -25,7 +25,7 @@ const Zine = db.define('zine', {
     zineImg: {
         type: DataTypes.STRING,
         allowNull: true,
-    },   
+    }   
 });
 
 module.exports = Zine;
