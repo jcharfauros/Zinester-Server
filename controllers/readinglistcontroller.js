@@ -8,7 +8,9 @@ const router = Router();
 router.post('/create', validateSession, (req, res) => {
     ReadingList.create({
         title: req.body.title,
-        userId: req.user.id        
+        // zineId: req.body.zineId,
+        userId: req.body.userId
+        // userId: req.user.id        
     })
     .then((readinglist) => {
         res.status(200).json({

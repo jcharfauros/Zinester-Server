@@ -1,4 +1,4 @@
-//this table is where the Readlist will be pulling zine info from
+//this table is where the Readlist will be pulling zine JSON from
 const { DataTypes } = require('sequelize');
 const db = require('../db');
 
