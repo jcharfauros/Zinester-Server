@@ -1,16 +1,14 @@
-// const { validateSession } = require('../middleware');
 const { Router } = require('express');
 const { ReadingList, Zine } = require('../models');
 const validateSession = require('../middleware/validate-session');
+
 const router = Router();
 
 // POST - /create
 router.post('/create', validateSession, (req, res) => {
     ReadingList.create({
         title: req.body.title,
-        // zineId: req.body.zineId,
-        userId: req.body.userId
-        // userId: req.user.id        
+        userId: req.user.id              
     })
     .then((readinglist) => {
         res.status(200).json({
@@ -30,7 +28,7 @@ router.get('/mylist', validateSession, (req, res) => {
     .catch((err) => res.status(500).json({ error: err })); 
 })
 
-// PUT - /update
+// PUT - update
 router.put('/update/:readinglistId', validateSession, function(req, res) {
     const updateReadingList = {
         title: req.body.title,
@@ -43,7 +41,6 @@ router.put('/update/:readinglistId', validateSession, function(req, res) {
         }
     };
     ReadingList.update(updateReadingList, query)
-        // .then((readinglist) => res.status(200).json(readinglist))
         .then((readinglist) => {
             res.status(200).json({
                 message: 'The reading list has been updated.',
@@ -53,7 +50,7 @@ router.put('/update/:readinglistId', validateSession, function(req, res) {
         .catch((err) => res.status(500).json({ error: err }));
 });
 
-// DELETE - /delete
+// DELETE
 router.delete('/delete/:readinglistId', validateSession, function(req, res) {
     const query = {
         where: {

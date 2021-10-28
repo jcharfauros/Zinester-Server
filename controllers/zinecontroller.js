@@ -4,7 +4,7 @@ const validateSession = require('../middleware/validate-session');
 
 const router = Router();
 
-//POST
+// POST - /create
 router.post('/create', validateSession, (req, res) => {
     Zine.create({
         title: req.body.title,
@@ -13,7 +13,8 @@ router.post('/create', validateSession, (req, res) => {
         category: req.body.category,
         yearCreated: req.body.yearCreated,
         zineImg: req.body.zineImg,
-        userId: req.user.id        
+        userId: req.user.id,
+        readinglistId: req.readinglist.id        
     })
     .then((zine) => {
         res.status(200).json({
@@ -24,7 +25,7 @@ router.post('/create', validateSession, (req, res) => {
     .catch((err) => res.status(500).json({ err }));
 });
 
-//GET all Zine - by User
+//GET - User(author role)
 router.get('/myzines', validateSession, (req, res) => {
   
     Zine.findAll({
@@ -34,7 +35,7 @@ router.get('/myzines', validateSession, (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));  
 })
 
-//GET all Zines in db - does not need to be a reg. user.
+//GET - all Zines (any user type, even unsigned up)
 router.get('/', (req, res) => {
     Zine.findAll()
         .then(logs => res.status(200).json(logs))
@@ -50,7 +51,8 @@ router.put('/update/:zineId', validateSession, function(req, res) {
         category: req.body.category,
         yearCreated: req.body.yearCreated,
         zineImg: req.body.zineImg,
-        userId: req.user.id        
+        userId: req.user.id,
+        // readinglistId: req.readinglist.id        
     };
     const query = { 
         where: { 
@@ -59,8 +61,7 @@ router.put('/update/:zineId', validateSession, function(req, res) {
         }
     };
     
-    Zine.update(updateZine, query)
-        // .then((zine) => res.status(200).json(zine))
+    Zine.update(updateZine, query)        
         .then((zine) => {
             res.status(200).json({
                 message: 'The zine has been updated successfully!',

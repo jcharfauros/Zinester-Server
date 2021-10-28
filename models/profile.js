@@ -1,3 +1,5 @@
+//NOTE: THIS CAN BE ADDED TO THE USER TABLE. DOES NOT NEED TO BE A SEPARATE TABLE.
+
 // const { DataTypes } = require('sequelize');
 // const db = require('db');
 

@@ -1,7 +1,6 @@
 const User = require('./user');
 const Zine = require('./zine');
 const ReadingList = require('./readinglist');
-// const Zine2 = require('./zine2');
 // const Profile = require('./profile');
 // const Reviews = require('./reviews');
 // create individual files for your models and import them here
@@ -27,8 +26,7 @@ Zine.belongsTo(ReadingList);
 
 module.exports = {
     User,
-    Zine,
-    Zine2,
+    Zine,   
     ReadingList,
 //  Profile,
 //  Reviews,

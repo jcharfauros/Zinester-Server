@@ -13,8 +13,7 @@ router.post('/signup', function (req, res) {
     username: req.body.username,
     email: req.body.email,
     passwordhash: bcrypt.hashSync(req.body.passwordhash, 5),
-    isZinester: req.body.isZinester,
-    //Julia do i add izZinester here
+    isZinester: req.body.isZinester,   
   })
     .then(function createSuccess(user) {
       let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { 
