@@ -33,18 +33,19 @@ router.post('/signup', function (req, res) {
 router.post('/login', function (req, res) {
   User.findOne({
     where: { 
-      email: req.body.user.email,
+      email: req.body.email,
      },
   })
     .then(function loginSuccess(user) {
       if (user) {
         bcrypt.compare(
-          req.body.user.passwordhash,
+          req.body.passwordhash,
           user.passwordhash,
           function (err, matches) {
             if (matches) {
               let token = jwt.sign(
-                { id: user.id, username: user.username }, 
+                // { id: user.id, username: user.username },
+                { id: user.id }, 
                 process.env.JWT_SECRET, 
                 { 
                   expiresIn: 60 * 60 * 24,
@@ -61,7 +62,7 @@ router.post('/login', function (req, res) {
               });
             }
           });
-      } else {
+      } else { 
         res.status(500).json({ 
           error: 'User does not exist.'
         });
