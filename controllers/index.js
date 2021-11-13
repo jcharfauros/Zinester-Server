@@ -1,5 +1,6 @@
 module.exports = {
   User: require("./usercontroller"),
   Zine: require('./zinecontroller'), 
-  ReadingList: require('./readinglistcontroller')
+  ReadingList: require('./readinglistcontroller'),
+  Comic: require('./comiccontroller')
 };

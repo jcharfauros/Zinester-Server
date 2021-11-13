@@ -1,5 +1,6 @@
 const User = require('./user');
 const Zine = require('./zine');
+const Comic = require('./comic');
 const ReadingList = require('./readinglist');
 // const Profile = require('./profile');
 // const Reviews = require('./reviews');
@@ -8,6 +9,9 @@ const ReadingList = require('./readinglist');
 // Setup Associations
 User.hasMany(Zine);
 Zine.belongsTo(User);
+
+User.hasMany(Comic);
+Comic.belongsTo(User);
 
 User.hasMany(ReadingList);
 ReadingList.belongsTo(User);
@@ -28,6 +32,7 @@ module.exports = {
     User,
     Zine,   
     ReadingList,
+    Comic,
 //  Profile,
 //  Reviews,
 };
