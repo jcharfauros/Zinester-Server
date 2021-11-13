@@ -1,88 +1,87 @@
 const { Router } = require('express');
-const { Zine } = require('../models');
+const { Comic } = require('../models')
 const validateSession = require('../middleware/validate-session');
 
 const router = Router();
 
 // POST - /create
 router.post('/create', validateSession, (req, res) => {
-    Zine.create({
+    Comic.create({
         title: req.body.title,
         author: req.body.author,
         description: req.body.description,
         category: req.body.category,
         yearCreated: req.body.yearCreated,
-        zineImg: req.body.zineImg,
-        userId: req.user.id,
-        // readinglistId: req.readinglist.id        
+        comicImg: req.body.comicImg,
+        userId: req.user.id,                
     })
-    .then((zine) => {
+    .then((comic) => {
         res.status(200).json({
-            message: 'Congratulation, the zine has been successfully added!',
-            log: zine,
+            message: 'Congratulation, the comic has been successfully added!',
+            log: comic,
         });
     })
     .catch((err) => res.status(500).json({ err }));
 });
 
 //GET - User(author role)
-router.get('/myzines', validateSession, (req, res) => {
+router.get('/mycomics', validateSession, (req, res) => {
   
-    Zine.findAll({
+    Comic.findAll({
         where: { userId: req.user.id },
     })
-    .then((zine) => res.status(200).json(zine))
+    .then((comic) => res.status(200).json(comic))
     .catch((err) => res.status(500).json({ error: err }));  
 })
 
 //GET - all Zines (any user type, even unsigned up)
 router.get('/', (req, res) => {
-    Zine.findAll()
+    Comic.findAll()
         .then(logs => res.status(200).json(logs))
         .catch(err => res.status(500).json({ error: err }));
 })
 
 //PUT - update
-router.put('/update/:zineId', validateSession, function(req, res) {
-    const updateZine = {
+router.put('/update/:comicId', validateSession, function(req, res) {
+    const updateComic = {
         title: req.body.title,
         author: req.body.author,
         description: req.body.description,
         category: req.body.category,
         yearCreated: req.body.yearCreated,
-        zineImg: req.body.zineImg,
+        comicImg: req.body.comicImg,
         userId: req.user.id,
-        // readinglistId: req.readinglist.id        
+     
     };
     const query = { 
         where: { 
-            id: req.params.zineId, 
+            id: req.params.comicId, 
             userId: req.user.id 
         }
     };
     
-    Zine.update(updateZine, query)        
-        .then((zine) => {
+    Comic.update(updateComic, query)        
+        .then((comic) => {
             res.status(200).json({
-                message: 'The zine has been updated successfully!',
-                log: zine,
+                message: 'The comic has been updated successfully!',
+                log: comic,
             });
         })
         .catch((err) => res.status(500).json({ error: err }));
 });
 
 //DELETE
-router.delete('/delete/:zineId', validateSession, function(req, res) {
+router.delete('/delete/:comicId', validateSession, function(req, res) {
     const query = {
         where: {
-            id: req.params.zineId, 
+            id: req.params.comicId, 
             userId: req.user.id
         }
     };
 
-    Zine.destroy(query).then(() => res
+    Comic.destroy(query).then(() => res
         .status(200)
-        .json({ message: 'The Zine was removed from the database'})
+        .json({ message: 'The Comic was removed from the database'})
     );
 });
 
