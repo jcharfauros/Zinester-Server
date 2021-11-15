@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../db');
 
-const Zine = db.define('zine', {
+const Comic = db.define('comic', {
     title: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -22,10 +22,10 @@ const Zine = db.define('zine', {
         type: DataTypes.INTEGER,
         allowNull: true,
     },
-    zineImg: {
+    comicImg: {
         type: DataTypes.STRING,
         allowNull: true,
     }   
 });
 
-module.exports = Zine;
+module.exports = Comic;

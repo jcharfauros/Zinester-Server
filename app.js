@@ -1,19 +1,24 @@
 require("dotenv").config();
 const Express = require("express");
 const db = require("./db");
-
+const sequelize = require('./db'); //julia add
 const app = Express();
 
 // Import middlewares as a bundle
-const middlewares = require("./middleware");
+const middlewares = require("./middleware/index"); //julia dd /index
 
 // Import controllers as a bundle
-const controllers = require("./controllers");
+const controllers = require("./controllers/index"); //julia add /index
+
+sequelize.sync(); //julia add
 
 // Parse the body of all requests as JSON
 app.use(Express.json());
 app.use(middlewares.CORS)
 app.use("/user", controllers.User);
+app.use('/zine', controllers.Zine); //julia add
+app.use('/comic', controllers.Comic);
+// app.use('/readinglist', controllers.ReadingList);
 
 const resetDatabase = {force:true}
 db.authenticate()
@@ -22,7 +27,7 @@ db.authenticate()
   .then(() => db.sync())
   .then(() =>
     app.listen(process.env.PORT, () => {
-      console.log(`[server]: App is listening on ${process.env.PORT}`);
+      console.log(`[server]: App is listening intently on ${process.env.PORT}`);
     })
   )
   .catch((e) => {
