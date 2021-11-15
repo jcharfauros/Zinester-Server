@@ -33,7 +33,8 @@ router.post('/signup', function (req, res) {
 router.post('/login', function (req, res) {
   User.findOne({
     where: { 
-      email: req.body.email,
+      // email: req.body.email,
+      username: req.body.username
      },
   })
     .then(function loginSuccess(user) {
