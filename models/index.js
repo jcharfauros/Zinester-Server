@@ -18,8 +18,8 @@ ReadingList.hasMany(Zine);
 User.hasOne(Profile);
 Profile.belongsTo(User);
 
-// Zine.hasMany(Reviews);
-// Reviews.belongsTo(Zine);
+Zine.hasMany(Reviews);
+Reviews.belongsTo(Zine);
 
 // User.hasMany(Reviews);
 // Reviews.belongsTo(User);
